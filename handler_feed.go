@@ -10,6 +10,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Handler for creating feeds
 func (apiCfg *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 	type param struct {
 		Name string `json:"name"`
@@ -31,7 +32,6 @@ func (apiCfg *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request
 		Url:       params.URL,
 		UserID:    user.ID,
 	})
-
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Error parsing JSON:%s", err))
 		return
@@ -42,7 +42,6 @@ func (apiCfg *apiConfig) handleCreateFeed(w http.ResponseWriter, r *http.Request
 
 func (apiCfg *apiConfig) handlerGetFeeds(w http.ResponseWriter, r *http.Request) {
 	feeds, err := apiCfg.DB.GetFeeds(r.Context())
-
 	if err != nil {
 		respondWithError(w, 400, fmt.Sprintf("Couldn't get feeds: %v", err))
 		return
